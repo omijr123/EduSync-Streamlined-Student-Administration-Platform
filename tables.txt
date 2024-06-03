@@ -1,0 +1,278 @@
+
+
+mysql> use dbms_project;
+Database changed
+mysql> show tables;
++------------------------+
+| Tables_in_dbms_project |
++------------------------+
+| attendance             |
+| courses                |
+| department             |
+| enrollment_status      |
+| exam_types             |
+| examinations           |
+| faculties              |
+| marks                  |
+| notices                |
+| students               |
+| users                  |
++------------------------+
+11 rows in set (0.00 sec)
+
+mysql> desc attendance;
++-----------------+--------------------------+------+-----+-------------------+-------------------+
+| Field           | Type                     | Null | Key | Default           | Extra             |
++-----------------+--------------------------+------+-----+-------------------+-------------------+
+| Attendance_ID   | int                      | NO   | PRI | NULL              | auto_increment    |
+| Student_ID      | int                      | YES  | MUL | NULL              |                   |
+| Course_ID       | int                      | YES  | MUL | NULL              |                   |
+| Timestamp       | datetime                 | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
+| Status          | enum('Present','Absent') | YES  |     | NULL              |                   |
+| attendance_date | date                     | YES  |     | NULL              |                   |
++-----------------+--------------------------+------+-----+-------------------+-------------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from attendance;
++---------------+------------+-----------+---------------------+---------+-----------------+
+| Attendance_ID | Student_ID | Course_ID | Timestamp           | Status  | attendance_date |
++---------------+------------+-----------+---------------------+---------+-----------------+
+|             1 |          1 |      2203 | 2024-05-10 04:44:46 | Absent  | 2024-05-10      |
+|             2 |          2 |      2203 | 2024-05-10 04:44:46 | Absent  | 2024-05-10      |
+|             3 |          1 |      2203 | 2024-05-08 04:44:46 | Present | 2024-05-08      |
+|             4 |          2 |      2203 | 2024-05-08 04:44:46 | Present | 2024-05-08      |
++---------------+------------+-----------+---------------------+---------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> desc courses;
++-------------------+--------------+------+-----+---------+----------------+
+| Field             | Type         | Null | Key | Default | Extra          |
++-------------------+--------------+------+-----+---------+----------------+
+| Course_ID         | int          | NO   | PRI | NULL    | auto_increment |
+| Course_Name       | varchar(255) | NO   |     | NULL    |                |
+| Course_Details    | text         | YES  |     | NULL    |                |
+| Department        | varchar(255) | YES  |     | NULL    |                |
+| department_id     | int          | YES  | MUL | NULL    |                |
+| course_faculty_id | int          | YES  | MUL | NULL    |                |
++-------------------+--------------+------+-----+---------+----------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from courses;
++-----------+------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------+---------------+-------------------+
+| Course_ID | Course_Name                  | Course_Details                                                                                                                                                                         | Department                                | department_id | course_faculty_id |
++-----------+------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------+---------------+-------------------+
+|      2201 | Data Structure and Algorithm | Data structure is the process how data is stored in the primary memory of a system for easier acces and better efficiency whereas Algorithm is the step by step procedure to a problem | Information and Communication Engineering |             1 |                 2 |
+|      2203 | Database Management System   | Everything about database from basic to advanced                                                                                                                                       | Information and Communication Engineering |             1 |                 1 |
+|      2204 | Signals and System           | Analysis of basic signals, systems, fourier analysis, fourier transform, fourier series etc                                                                                            | NULL                                      |             1 |              NULL |
++-----------+------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------+---------------+-------------------+
+3 rows in set (0.00 sec)
+
+mysql> desc department;
++-----------------+--------------+------+-----+---------+-------+
+| Field           | Type         | Null | Key | Default | Extra |
++-----------------+--------------+------+-----+---------+-------+
+| department_id   | int          | NO   | PRI | NULL    |       |
+| department_name | varchar(255) | YES  |     | NULL    |       |
++-----------------+--------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from department;
++---------------+-------------------------------------------+
+| department_id | department_name                           |
++---------------+-------------------------------------------+
+|             1 | Information Communication and Engineering |
++---------------+-------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> desc enrollment_Status;
++---------------+--------------+------+-----+---------+----------------+
+| Field         | Type         | Null | Key | Default | Extra          |
++---------------+--------------+------+-----+---------+----------------+
+| Enrollment_ID | int          | NO   | PRI | NULL    | auto_increment |
+| Student_ID    | int          | YES  | MUL | NULL    |                |
+| Course_ID     | int          | YES  | MUL | NULL    |                |
+| Semester      | varchar(255) | YES  |     | NULL    |                |
++---------------+--------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from enrollment_status;
++---------------+------------+-----------+----------+
+| Enrollment_ID | Student_ID | Course_ID | Semester |
++---------------+------------+-----------+----------+
+|             1 |          1 |      2203 | 3        |
+|             2 |          2 |      2203 | 3        |
++---------------+------------+-----------+----------+
+2 rows in set (0.00 sec)
+
+mysql> desc exam_types;
++----------------+--------------+------+-----+---------+----------------+
+| Field          | Type         | Null | Key | Default | Extra          |
++----------------+--------------+------+-----+---------+----------------+
+| Exam_Type_ID   | int          | NO   | PRI | NULL    | auto_increment |
+| Exam_Type_Name | varchar(255) | NO   |     | NULL    |                |
++----------------+--------------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from exam_types;
++--------------+------------------------------------+
+| Exam_Type_ID | Exam_Type_Name                     |
++--------------+------------------------------------+
+|            1 | Mid Term                           |
+|            2 | Class test-1                       |
+|            3 | Class test-2                       |
+|            4 | Class test-3                       |
+|            5 | Class test-4                       |
+|            6 | Assignment/Presentation/Term paper |
+|            7 | Attendance                         |
++--------------+------------------------------------+
+7 rows in set (0.00 sec)
+
+mysql> desc examinations;
++--------------+--------------+------+-----+---------+----------------+
+| Field        | Type         | Null | Key | Default | Extra          |
++--------------+--------------+------+-----+---------+----------------+
+| Exam_ID      | int          | NO   | PRI | NULL    | auto_increment |
+| Semester     | varchar(255) | YES  |     | NULL    |                |
+| Course_ID    | int          | YES  | MUL | NULL    |                |
+| Schedule     | datetime     | YES  |     | NULL    |                |
+| Exam_Type_ID | int          | YES  | MUL | NULL    |                |
++--------------+--------------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from examinations;
++---------+----------+-----------+---------------------+--------------+
+| Exam_ID | Semester | Course_ID | Schedule            | Exam_Type_ID |
++---------+----------+-----------+---------------------+--------------+
+|       1 | 2-2      |      2203 | 2024-05-10 14:50:38 |            1 |
+|       2 | 2-2      |      2203 | 2024-05-10 15:26:26 |            2 |
+|       3 | 2-2      |      2203 | 2024-05-10 15:26:33 |            3 |
+|       4 | 2-2      |      2203 | 2024-05-10 15:26:40 |            4 |
+|       5 | 2-2      |      2203 | 2024-05-10 15:26:51 |            5 |
+|       6 | 2-2      |      2203 | 2024-05-10 15:30:28 |            6 |
+|       7 | 2-2      |      2203 | 2024-05-10 15:30:36 |            7 |
+|       8 | 2-2      |      2204 | 2024-05-10 15:50:21 |            1 |
+|       9 | 2-2      |      2204 | 2024-05-10 15:50:21 |            2 |
+|      10 | 2-2      |      2204 | 2024-05-10 15:50:21 |            3 |
+|      11 | 2-2      |      2204 | 2024-05-10 15:50:21 |            4 |
+|      12 | 2-2      |      2204 | 2024-05-10 15:50:21 |            5 |
+|      13 | 2-2      |      2204 | 2024-05-10 15:50:21 |            6 |
+|      14 | 2-2      |      2204 | 2024-05-10 15:50:21 |            7 |
++---------+----------+-----------+---------------------+--------------+
+14 rows in set (0.00 sec)
+
+mysql> desc faculties;
++--------------+--------------+------+-----+---------+----------------+
+| Field        | Type         | Null | Key | Default | Extra          |
++--------------+--------------+------+-----+---------+----------------+
+| Faculty_ID   | int          | NO   | PRI | NULL    | auto_increment |
+| Faculty_Name | varchar(255) | NO   |     | NULL    |                |
+| Department   | varchar(255) | YES  |     | NULL    |                |
+| Email_ID     | varchar(255) | YES  |     | NULL    |                |
+| Phone_Number | varchar(255) | YES  |     | NULL    |                |
++--------------+--------------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from faculties;
++------------+--------------+-------------------------------------------+--------------------+--------------+
+| Faculty_ID | Faculty_Name | Department                                | Email_ID           | Phone_Number |
++------------+--------------+-------------------------------------------+--------------------+--------------+
+|          1 | faculty1     | Information and Communication Engineering | faculty1@gmail.com | 0123456789   |
+|          2 | faculty2     | Information and Communication Engineering | faculty2@gmail.com | 012          |
++------------+--------------+-------------------------------------------+--------------------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> desc marks;
++----------------+------+------+-----+---------+----------------+
+| Field          | Type | Null | Key | Default | Extra          |
++----------------+------+------+-----+---------+----------------+
+| Marks_ID       | int  | NO   | PRI | NULL    | auto_increment |
+| Exam_ID        | int  | YES  | MUL | NULL    |                |
+| Course_ID      | int  | YES  | MUL | NULL    |                |
+| Total_Marks    | int  | YES  |     | NULL    |                |
+| Obtained_Marks | int  | YES  |     | NULL    |                |
+| Student_ID     | int  | YES  | MUL | NULL    |                |
++----------------+------+------+-----+---------+----------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from marks;
++----------+---------+-----------+-------------+----------------+------------+
+| Marks_ID | Exam_ID | Course_ID | Total_Marks | Obtained_Marks | Student_ID |
++----------+---------+-----------+-------------+----------------+------------+
+|        3 |       1 |      2203 |          40 |             35 |          1 |
+|        4 |       1 |      2203 |          40 |             36 |          2 |
+|        7 |       2 |      2203 |          10 |              9 |          1 |
+|        8 |       2 |      2203 |          10 |              8 |          2 |
+|       11 |       7 |      2203 |          10 |              9 |          1 |
+|       12 |       7 |      2203 |          10 |              8 |          2 |
+|       13 |       4 |      2203 |          10 |              8 |          1 |
+|       14 |       4 |      2203 |          10 |              7 |          2 |
++----------+---------+-----------+-------------+----------------+------------+
+8 rows in set (0.00 sec)
+
+mysql> desc notices;
++----------------+------+------+-----+---------+----------------+
+| Field          | Type | Null | Key | Default | Extra          |
++----------------+------+------+-----+---------+----------------+
+| notice_id      | int  | NO   | PRI | NULL    | auto_increment |
+| notice_date    | date | YES  |     | NULL    |                |
+| notice_details | text | YES  |     | NULL    |                |
++----------------+------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from users;
++---------+----------+----------+---------+
+| user_id | username | password | role    |
++---------+----------+----------+---------+
+|       1 | admin    | 123      | admin   |
+|       2 | student1 | 123      | student |
+|       3 | student2 | 123      | student |
+|       4 | faculty1 | 123      | faculty |
+|       5 | faculty2 | 123      | faculty |
++---------+----------+----------+---------+
+5 rows in set (0.00 sec)
+
+mysql> desc students;
++-------------------+--------------+------+-----+---------+----------------+
+| Field             | Type         | Null | Key | Default | Extra          |
++-------------------+--------------+------+-----+---------+----------------+
+| Student_ID        | int          | NO   | PRI | NULL    | auto_increment |
+| Student_Name      | varchar(255) | NO   |     | NULL    |                |
+| Enrollment_Status | varchar(100) | NO   |     | NULL    |                |
+| department        | varchar(255) | YES  |     | NULL    |                |
+| department_id     | int          | YES  | MUL | NULL    |                |
++-------------------+--------------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from students;
++------------+--------------+-------------------+-------------------------------------------+---------------+
+| Student_ID | Student_Name | Enrollment_Status | department                                | department_id |
++------------+--------------+-------------------+-------------------------------------------+---------------+
+|          1 | student1     | Enrolled          | Information Communication and Engineering |             1 |
+|          2 | student2     | Enrolled          | Information and Communication Engineering |             1 |
++------------+--------------+-------------------+-------------------------------------------+---------------+
+2 rows in set (0.00 sec)
+
+mysql> desc users;
++----------+--------------------------------------------+------+-----+---------+----------------+
+| Field    | Type                                       | Null | Key | Default | Extra          |
++----------+--------------------------------------------+------+-----+---------+----------------+
+| user_id  | int                                        | NO   | PRI | NULL    | auto_increment |
+| username | varchar(255)                               | NO   |     | NULL    |                |
+| password | varchar(255)                               | NO   |     | NULL    |                |
+| role     | enum('admin','student','parent','faculty') | YES  |     | NULL    |                |
++----------+--------------------------------------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from users;
++---------+----------+----------+---------+
+| user_id | username | password | role    |
++---------+----------+----------+---------+
+|       1 | admin    | 123      | admin   |
+|       2 | student1 | 123      | student |
+|       3 | student2 | 123      | student |
+|       4 | faculty1 | 123      | faculty |
+|       5 | faculty2 | 123      | faculty |
++---------+----------+----------+---------+
+5 rows in set (0.00 sec)
+
+mysql>

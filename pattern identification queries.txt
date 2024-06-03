@@ -1,0 +1,51 @@
+Pattern Identification Queries:
+ 1. Attendance Patterns by Day of the Week:
+SELECT DAYOFWEEK(attendance_date) AS Day, AVG(Status = 'Present') AS Average_Attendance
+FROM attendance
+GROUP BY DAYOFWEEK(attendance_date)
+ORDER BY Average
+2. Average Marks by Semester
+SELECT e.Semester, AVG(m.Obtained_Marks) AS Average_Marks
+FROM marks m
+JOIN enrollment_status e ON m.Student_ID = e.Student_ID AND m.Course_ID = e.Course_ID
+GROUP BY e.Semester
+ORDER BY e.Semester;
+3. Faculty Activity Patterns
+SELECT c.course_faculty_id AS Faculty_ID, COUNT(*) AS Number_of_Submissions
+FROM marks m
+JOIN courses c ON m.Course_ID = c.Course_ID
+GROUP BY c.course_faculty_id
+ORDER BY Number_of_Submissions DESC;
+4. Student Average Attendance Patterns
+SELECT s.Student_Name, AVG(a.Status = 'Present') AS Average_Attendance
+FROM attendance a
+JOIN students s ON a.Student_ID = s.Student_ID
+GROUP BY s.Student_Name
+ORDER BY s.Student_Name;
+5. Department Popularity
+SELECT d.department_name, COUNT(s.Student_ID) AS Student_Count
+FROM department d
+JOIN students s ON d.department_id = s.department_id
+GROUP BY d.department_name
+ORDER BY Student_Count DESC;
+6. Average Marks Distribution by Course
+SELECT c.Course_Name, AVG(m.Obtained_Marks) AS Average_Marks
+FROM marks m
+JOIN courses c ON m.Course_ID = c.Course_ID
+GROUP BY c.Course_Name
+ORDER BY c.Course_Name;
+7. Department Performance
+SELECT d.department_name, AVG(m.Obtained_Marks) AS Average_Marks
+FROM marks m
+JOIN students s ON m.Student_ID = s.Student_ID
+JOIN department d ON s.department_id = d.department_id
+GROUP BY d.department_name
+ORDER BY Average_Marks DESC;
+8. Exam Performance by Type
+SELECT et.Exam_Type_Name, AVG(m.Obtained_Marks) AS Average_Marks
+FROM marks m
+JOIN examinations e ON m.Exam_ID = e.Exam_ID
+JOIN exam_types et ON e.Exam_Type_ID = et.Exam_Type_ID
+GROUP BY et.Exam_Type_Name
+ORDER BY Average_Marks DESC;
+These queries were used to identify patterns and trends in the EduSync project and were displayed on the `admin_patterns.php` page.
