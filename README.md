@@ -1,4 +1,7 @@
-Here it is an PHP, Mysql, Html, Css, Javascript & Xampp based project. In 2nd year 2nd semester in DBMS LAB course I made this project with my classmates. ![pic1](https://github.com/user-attachments/assets/e414c699-5893-4c91-8b72-e4ed111a591e)
+Here it is an PHP, Mysql, Html, Css, Javascript & Xampp based project. In 2nd year 2nd semester in DBMS LAB course I made this project with my classmates.
+
+
+ ![pic1](https://github.com/user-attachments/assets/e414c699-5893-4c91-8b72-e4ed111a591e)
 
 
 Below given the detailed description about the project:
